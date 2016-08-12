@@ -8,3 +8,8 @@ The workflow is simple:
 * The echo server responds to the client request with the previously posted data and options.
 
 This tool is work in progress and the above is the first goal.
+
+## Todo
+* Allow url regexp a-la express for simple regexp (like trailing slashes)
+* Allow parameters in urls?
+* Allow more options for registering calls, including web-hooks with delays.
