@@ -1,0 +1,14 @@
+{
+  "name": "nodejs_echo_server",
+  "version": "0.0.1",
+  "description": "A simple server to act as a replacement to work without networks",
+  "author": "Mathieu Davy",
+  "main": "./src/index.js",
+  "dependencies": {
+    "nconf": "^0.8.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/index"
+  }
+}
