@@ -1,14 +1,10 @@
-var url = require('url'),
-    registry = require(process.cwd() + '/src/lib/registry'),
+var cwd = process.cwd(),
+    url = require('url'),
+    pathRegexp = require('path-to-regexp'),
+    registry = require(cwd + '/src/lib/registry'),
+    Handler = require(cwd + '/src/lib/handler'),
     handlers = {},
-    Router,
-
-    Handler = function(method) {
-        this.process = function(req, res) {
-            var params = null;
-            return method.apply(this, [req, res, params]);
-        };
-    };
+    Router;
 
 Router = {
     get: function get(uri, func) {
@@ -31,26 +27,29 @@ Router = {
     route: function route(req, res) {
         var parsedUrl = url.parse(req.url, true),
             method = req.method.toLowerCase(),
-            handler = (handlers[parsedUrl.pathname] && (handlers[parsedUrl.pathname][method] || handlers[parsedUrl.pathname]['*'])),
-            registryHandler;
+            regexp = pathRegexp(parsedUrl.pathname, keys),
+            keys = [],
+            handler,
+            match;
 
-        if (!handler) {
-            registryHandler = registry.get(parsedUrl.pathname, method);
-
-            if (!registryHandler) {
-                handler = this.e404(req);
-            } else {
-                handler = new Handler(function(req, res) {
-                    res.writeHead(200, {
-                        'Content-Type': 'application/json'
-                    });
-
-                    var bodystuff = JSON.stringify(registryHandler.payload);
-                    res.write(bodystuff);
-
-                    res.end();
-                });
+        for (var path in handlers) {
+            match = regexp.exec(path);
+            if (match) {
+                handler = (handlers[path][method] || handlers[path]['*']);
+                if (handler) {
+                    break;
+                }
             }
+        }
+
+        // No server route found, trying registry
+        if (!handler) {
+            handler = registry.get(parsedUrl.pathname, method);
+        }
+
+        // No server or registry route found, serving a 404
+        if (!handler) {
+            handler = this.e404(req);
         }
 
         return handler.process(req, res);
