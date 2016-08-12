@@ -5,6 +5,7 @@
   "author": "Mathieu Davy",
   "main": "./src/index.js",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "nconf": "^0.8.4"
   },
   "devDependencies": {},

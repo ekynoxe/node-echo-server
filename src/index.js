@@ -1,7 +1,9 @@
 var cwd = process.cwd(),
     http = require('http'),
+    bodyParser = require('body-parser'),
     config = require(cwd + '/config'),
     router = require(cwd + '/src/lib/router'),
+    registry = require(cwd + '/src/lib/registry'),
     port = config('port'),
     server;
 
@@ -9,8 +11,24 @@ router.get('/', function(req, res) {
     res.writeHead(200, {
         'Content-Type': 'text/plain'
     });
+
     res.write('Hello World');
     res.end();
+});
+
+router.post('/register', function(req, res) {
+    bodyParser.json()(req, res, function() {
+        if (!req.body.path || !req.body.method || !req.body.payload) {
+            return router.e500(Error('req.body.path, req.body.method and req.body.payload must be provided')).process(req, res);
+        }
+
+        registry.set(req.body.path, req.body.method, req.body.payload);
+
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });
+        res.end();
+    });
 });
 
 server = http.createServer(function(req, res) {
