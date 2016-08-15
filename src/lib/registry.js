@@ -36,6 +36,10 @@ Registry = {
 
             res.end();
         });
+    },
+
+    getAll: function getAll() {
+        return data;
     }
 };
 

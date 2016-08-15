@@ -16,6 +16,16 @@ router.get('/', function(req, res) {
     res.end();
 });
 
+
+router.get('/._./getall', function(req, res) {
+    var handlers = registry.getAll();
+
+    var bodystuff = JSON.stringify(handlers);
+    res.write(bodystuff);
+
+    res.end();
+});
+
 router.post('/._.', function(req, res) {
     bodyParser.json()(req, res, function() {
         if (!req.body.path || !req.body.method || !req.body.payload) {
