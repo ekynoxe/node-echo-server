@@ -12,11 +12,11 @@ router.get('/', function(req, res) {
         'Content-Type': 'text/plain'
     });
 
-    res.write('Hello World');
+    res.write('Echo server ready. Register responses by POSTing JSON payloads to /._.');
     res.end();
 });
 
-router.post('/register', function(req, res) {
+router.post('/._.', function(req, res) {
     bodyParser.json()(req, res, function() {
         if (!req.body.path || !req.body.method || !req.body.payload) {
             return router.e500(Error('req.body.path, req.body.method and req.body.payload must be provided')).process(req, res);
