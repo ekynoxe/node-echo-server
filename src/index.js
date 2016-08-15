@@ -24,7 +24,7 @@ router.post('/._.', function(req, res) {
 
         registry.set(req.body.path, req.body.method, req.body.payload);
 
-        res.writeHead(200, {
+        res.writeHead(201, {
             'Content-Type': 'text/plain'
         });
 
