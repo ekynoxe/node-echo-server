@@ -10,6 +10,7 @@ The workflow is simple:
 This tool is work in progress and the above is the first goal.
 
 ## Todo
-* Allow url regexp a-la express for simple regexp
+* Allow url regexp a-la express for simple regexp'ed routes
 * Allow parameters in urls?
-* Allow more options for registering calls, including web-hooks with delays.
+* Allow more options for registering calls, including web-hooks with delays
+* Allow different payload types, based on Content-Type header.
