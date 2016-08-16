@@ -7,6 +7,7 @@ var cwd = process.cwd(),
     port = config('port'),
     server;
 
+// Home page
 router.get('/', function(req, res) {
     res.writeHead(200, {
         'Content-Type': 'text/plain'
@@ -16,8 +17,8 @@ router.get('/', function(req, res) {
     res.end();
 });
 
-
-router.get('/._./getall', function(req, res) {
+// Get all registered handlers as json data
+router.get('/._./', function(req, res) {
     var handlers = registry.getAll();
 
     var bodystuff = JSON.stringify(handlers);
@@ -26,6 +27,7 @@ router.get('/._./getall', function(req, res) {
     res.end();
 });
 
+// Create a new handler, or replace an existing one.
 router.post('/._.', function(req, res) {
     bodyParser.json()(req, res, function() {
         if (!req.body.path || !req.body.method || !req.body.payload) {
